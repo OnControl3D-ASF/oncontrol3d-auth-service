@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 /** Fail-fast rules for the two shared secrets (S-A1-f, A2.2). */
 class AuthSecurityPropertiesTest {
 
-    private static final String SECRET = "0123456789-0123456789-0123456789-ab"; // 36 bytes
+    private static final String SECRET = "test-secret-key-with-at-least-256-bits-0123456789";
     private static final String TOKEN = "internal-token-0123456789-0123456789"; // 37 bytes
 
     @Configuration
