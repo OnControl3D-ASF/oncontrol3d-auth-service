@@ -12,21 +12,25 @@
 
 ## Pruebas y calidad
 
-- [ ] `./mvnw -B -ntp test` en verde: unitarias, integración (Testcontainers) y cobertura JaCoCo ≥ 70 %
-- [ ] Pruebas nuevas o actualizadas para el cambio
+- [ ] `./mvnw verify` en verde: unitarias, cobertura JaCoCo ≥ 70 % e integración (Testcontainers)
+- [ ] Pruebas nuevas o actualizadas para el cambio (unitarias e integración)
+- [ ] SonarCloud: quality gate en verde
 
 ## Contratos y despliegue
 
-- [ ] **No cambia contratos de API consumidos por clinical/frontend** (rutas, DTOs, claims del JWT, códigos HTTP), o el cambio está coordinado
-- [ ] `/internal/**` sigue sin exponerse por ningún edge/proxy
+- [ ] **No cambia contratos de API consumidos por el frontend** (rutas, DTOs, nombres de campos, códigos HTTP), o el cambio está coordinado con el equipo de frontend
+- [ ] Manifiestos de `deploy/` actualizados si cambian variables, puertos o probes (`Validate Kubernetes manifests` en verde)
+- [ ] Mensajes de integración (`docs/contracts/`) compatibles o con versión nueva
 
 ## Seguridad
 
-- [ ] No hay secretos ni credenciales en el diff (gitleaks en verde); la configuración nueva se documenta en el README
+- [ ] No hay secretos ni credenciales en el diff (gitleaks en verde); la configuración nueva se documenta en `.env.example` o en `deploy/env/`
 - [ ] Sin hallazgos que bloqueen: Semgrep (ERROR), Trivy dependencias e imagen (CRITICAL / HIGH con parche)
-- [ ] Contraseñas, hashes y tokens nunca se registran en logs ni en respuestas
+- [ ] Dependencias nuevas o actualizadas revisadas (licencia, mantenimiento, CVEs)
+- [ ] Validación de entradas y autorización consideradas (IDOR: ¿el usuario puede acceder a este recurso?)
 
 ## Revisión
 
 - [ ] Commits con Conventional Commits y descripción que explica el **porqué**
+- [ ] Rama actualizada y conversaciones de revisión resueltas
 - [ ] Un *code owner* distinto del autor revisó el cambio (lo exige la protección de `main`)
