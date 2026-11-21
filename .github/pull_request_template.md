@@ -14,13 +14,11 @@
 
 - [ ] `./mvnw verify` en verde: unitarias, cobertura JaCoCo ≥ 70 % e integración (Testcontainers)
 - [ ] Pruebas nuevas o actualizadas para el cambio (unitarias e integración)
-- [ ] SonarCloud: quality gate en verde
 
 ## Contratos y despliegue
 
-- [ ] **No cambia contratos de API consumidos por el frontend** (rutas, DTOs, nombres de campos, códigos HTTP), o el cambio está coordinado con el equipo de frontend
-- [ ] Manifiestos de `deploy/` actualizados si cambian variables, puertos o probes (`Validate Kubernetes manifests` en verde)
-- [ ] Mensajes de integración (`docs/contracts/`) compatibles o con versión nueva
+- [ ] **No cambia contratos** consumidos por clinical o el frontend (claims del JWT, `/api/auth/**`, `/internal/accounts`), o el cambio está coordinado con esos equipos
+- [ ] Variables nuevas documentadas en el README (y en los manifiestos de `deploy/` cuando existan)
 
 ## Seguridad
 
