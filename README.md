@@ -8,3 +8,14 @@ login rate limiting, audit log and the internal provisioning API consumed by the
 - Tests: `./mvnw -B -ntp test` (JUnit, MockMvc, Testcontainers; JaCoCo line gate 70 %).
 
 See the SDD change `auth-service-extraction` for the full contract.
+
+## Configuration
+
+| Variable | Purpose |
+|---|---|
+| `DB_URL`, `DB_USERNAME`, `DB_PASSWORD` | PostgreSQL database `oncontrol_auth` |
+| `JWT_SECRET` | HS256 key, >= 32 bytes, identical to the clinical service |
+| `AUTH_INTERNAL_TOKEN` | Token for `/internal/**`, >= 32 bytes, shared with clinical |
+| `PORT` | Defaults to `8082` |
+
+The service refuses to start when `JWT_SECRET` or `AUTH_INTERNAL_TOKEN` is blank or shorter than 32 bytes.
