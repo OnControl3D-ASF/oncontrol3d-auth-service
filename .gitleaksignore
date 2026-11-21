@@ -1,0 +1,2 @@
+# False positive: fake 36-byte test value in AuthSecurityPropertiesTest (A1a), replaced by an allowlisted key in A1b.
+08fc46b2909afef5393cf67baf79f8967cb6efbd:src/test/java/com/oncontrol/auth/security/infrastructure/config/AuthSecurityPropertiesTest.java:generic-api-key:14
