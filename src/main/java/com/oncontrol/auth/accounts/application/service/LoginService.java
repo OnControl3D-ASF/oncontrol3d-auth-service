@@ -28,8 +28,11 @@ public class LoginService {
         }
         Optional<Account> found = accounts.findByEmail(Account.normalize(email));
         boolean matches = passwordEncoder.matches(rawPassword, found.map(Account::getPasswordHash).orElse(timingHash));
-        if (found.isEmpty() || !matches || !found.get().isActive()) {
+        if (found.isEmpty()) {
             throw new InvalidCredentialsException();
+        }
+        if (!matches || !found.get().isActive()) {
+            throw new InvalidCredentialsException(found.get());
         }
         return found.get();
     }

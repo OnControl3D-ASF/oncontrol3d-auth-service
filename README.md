@@ -19,3 +19,10 @@ See the SDD change `auth-service-extraction` for the full contract.
 | `PORT` | Defaults to `8082` |
 
 The service refuses to start when `JWT_SECRET` or `AUTH_INTERNAL_TOKEN` is blank or shorter than 32 bytes.
+
+## API
+
+- `POST /api/auth/login` (public, rate limited 5/min per IP): 200 slim body, 401 `{"message":"Invalid credentials"}`, 429.
+- `GET /api/auth/audit?size=50` (Bearer, role ORGANIZATION): own-organization audit events, newest first.
+- `POST /internal/accounts`, `DELETE /internal/accounts/{id}` (header `X-Internal-Token`): provisioning for the clinical service. Never route `/internal/**` through an edge or proxy.
+- `GET /health`.

@@ -96,6 +96,33 @@ class LoginServiceTest {
         assertThat(unknown).isEqualTo("Invalid credentials").isEqualTo(wrong);
     }
 
+    @Test
+    void failureForKnownAccount_exposesItForAuditing_butUnknownEmailDoesNot() {
+        Account doctor = doctor();
+        when(accounts.findByEmail("dr@clinic.com")).thenReturn(Optional.of(doctor));
+        when(accounts.findByEmail("nobody@clinic.com")).thenReturn(Optional.empty());
+
+        InvalidCredentialsException wrongPassword = catchException("dr@clinic.com", "wrong");
+        InvalidCredentialsException unknown = catchException("nobody@clinic.com", "x");
+
+        assertThat(wrongPassword.account()).containsSame(doctor);
+        assertThat(unknown.account()).isEmpty();
+    }
+
+    @Test
+    void failureForInactiveAccount_exposesTheAccount() {
+        Account doctor = doctor();
+        doctor.deactivate();
+        when(accounts.findByEmail("dr@clinic.com")).thenReturn(Optional.of(doctor));
+
+        assertThat(catchException("dr@clinic.com", "correct-horse").account()).containsSame(doctor);
+    }
+
+    private InvalidCredentialsException catchException(String email, String password) {
+        return org.junit.jupiter.api.Assertions.assertThrows(InvalidCredentialsException.class,
+                () -> service.authenticate(email, password));
+    }
+
     private String catchMessage(String email, String password) {
         try {
             service.authenticate(email, password);
