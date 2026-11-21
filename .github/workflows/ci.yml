@@ -17,6 +17,18 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }} # never cancel a delivery on main
 
 jobs:
+  # Renders deploy/k8s for dev and prod with placeholder values (same render.sh as the
+  # deployment) and validates them: proves every variable is provided and the result is
+  # schema-valid. See deploy/validate.sh.
+  manifests:
+    name: Validate Kubernetes manifests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Render and validate (dev, prod)
+        run: deploy/validate.sh
+
   build-test:
     name: Build, test & coverage gate
     runs-on: ubuntu-latest
