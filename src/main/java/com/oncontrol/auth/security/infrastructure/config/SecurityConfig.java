@@ -24,6 +24,10 @@ public class SecurityConfig {
                 .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/health", "/error").permitAll()
+                        // Open prefix so unknown /api/auth routes answer 404 (e.g. the removed
+                        // register/organization, S-A1-h). Every NEW protected route under /api/auth
+                        // MUST be listed above this line.
+                        .requestMatchers("/api/auth/**").permitAll()
                         .anyRequest().authenticated());
         return http.build();
     }
