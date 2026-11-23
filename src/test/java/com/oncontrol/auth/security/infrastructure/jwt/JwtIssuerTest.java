@@ -29,8 +29,11 @@ class JwtIssuerTest {
     private final JwtIssuer issuer = new JwtIssuer(
             new AuthSecurityProperties(SECRET, TOKEN), Clock.fixed(NOW, ZoneOffset.UTC));
 
+    // Validate expiry against the same fixed instant the issuer used: with the wall clock, every token
+    // issued at NOW (+24 h) became expired on 2026-11-22T10:00Z and the whole class failed.
     private Claims parse(String token) {
-        return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
+        return Jwts.parser().verifyWith(key).clock(() -> java.util.Date.from(NOW)).build()
+                .parseSignedClaims(token).getPayload();
     }
 
     private static Long id(Claims claims, String name) {
